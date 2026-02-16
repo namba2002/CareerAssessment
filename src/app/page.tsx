@@ -34,10 +34,9 @@ export default function DiagnosisPage() {
 
   const handleSubmit = () => {
     if (!allAnswered) return;
-    const params = new URLSearchParams();
-    params.set("a", JSON.stringify(state.answers));
-    params.set("m", JSON.stringify(state.mbti));
-    router.push(`/result?${params.toString()}`);
+    sessionStorage.setItem("diagnosis_answers", JSON.stringify(state.answers));
+    sessionStorage.setItem("diagnosis_mbti", JSON.stringify(state.mbti));
+    router.push("/result");
   };
 
   return (

@@ -1,49 +1,54 @@
 "use client";
 
-import { useSearchParams, useRouter } from "next/navigation";
-import { Suspense } from "react";
-import { Answer, MbtiInput } from "@/types";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { Answer, MbtiInput, IndustryResult } from "@/types";
 import { calcRanking, getMbtiType } from "@/lib/scoring";
 import { mbtiData } from "@/data/mbti";
+import { MbtiTypeData } from "@/types";
 import { RankingCard } from "@/components/RankingCard";
 import { MbtiSection } from "@/components/MbtiSection";
 
-function ResultContent() {
-  const searchParams = useSearchParams();
+export default function ResultPage() {
   const router = useRouter();
+  const [ranking, setRanking] = useState<IndustryResult[] | null>(null);
+  const [mbtiInfo, setMbtiInfo] = useState<MbtiTypeData | null>(null);
+  const [mbtiType, setMbtiType] = useState<string | null>(null);
 
-  // クエリパラメータから回答データを復元
-  const answersRaw = searchParams.get("a");
-  const mbtiRaw = searchParams.get("m");
+  useEffect(() => {
+    const answersRaw = sessionStorage.getItem("diagnosis_answers");
+    const mbtiRaw = sessionStorage.getItem("diagnosis_mbti");
 
-  if (!answersRaw) {
+    if (!answersRaw) {
+      router.replace("/");
+      return;
+    }
+
+    const answers: Record<number, Answer> = JSON.parse(answersRaw);
+    const mbtiInput: MbtiInput = mbtiRaw
+      ? JSON.parse(mbtiRaw)
+      : { EI: null, SN: null, TF: null, JP: null };
+
+    const results = calcRanking(answers, mbtiInput);
+    setRanking(results);
+
+    const type = getMbtiType(mbtiInput);
+    setMbtiType(type);
+    if (type && mbtiData[type]) {
+      setMbtiInfo(mbtiData[type]);
+    }
+  }, [router]);
+
+  if (!ranking) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-gray-500 mb-4">診断データがありません</p>
-          <button
-            onClick={() => router.push("/")}
-            className="text-blue-600 underline"
-          >
-            診断ページに戻る
-          </button>
-        </div>
+        <p className="text-gray-400">読み込み中...</p>
       </div>
     );
   }
 
-  const answers: Record<number, Answer> = JSON.parse(answersRaw);
-  const mbtiInput: MbtiInput = mbtiRaw
-    ? JSON.parse(mbtiRaw)
-    : { EI: null, SN: null, TF: null, JP: null };
-
-  const ranking = calcRanking(answers, mbtiInput);
   const top3 = ranking.slice(0, 3);
 
-  const mbtiType = getMbtiType(mbtiInput);
-  const mbtiInfo = mbtiType ? mbtiData[mbtiType] : null;
-
-  // X共有テキスト
   const shareText = mbtiType
     ? `おすすめ業界：${top3[0].industry.name} / MBTI：${mbtiType} #就活 #業界診断 #MBTI`
     : `おすすめ業界：${top3[0].industry.name} #就活 #業界診断`;
@@ -54,6 +59,8 @@ function ResultContent() {
   };
 
   const handleRetry = () => {
+    sessionStorage.removeItem("diagnosis_answers");
+    sessionStorage.removeItem("diagnosis_mbti");
     router.push("/");
   };
 
@@ -99,19 +106,5 @@ function ResultContent() {
         </div>
       </div>
     </main>
-  );
-}
-
-export default function ResultPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen flex items-center justify-center">
-          <p className="text-gray-400">読み込み中...</p>
-        </div>
-      }
-    >
-      <ResultContent />
-    </Suspense>
   );
 }
