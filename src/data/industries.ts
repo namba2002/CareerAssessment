@@ -1,7 +1,7 @@
 import { IndustryProfile } from "@/types";
 
 /**
- * 10業界の理想プロファイル
+ * 15業界の理想プロファイル
  * 各要素 0〜100 でどの程度その要素が求められるかを定義
  */
 export const industries: IndustryProfile[] = [
@@ -21,7 +21,6 @@ export const industries: IndustryProfile[] = [
       "論理的に問題を解く力が求められる",
     ],
     caution: "技術の変化が速く、継続的な学習が必要になる",
-    exampleJobs: ["エンジニア", "プロダクトマネージャー"],
   },
   {
     id: "manufacturer",
@@ -39,7 +38,6 @@ export const industries: IndustryProfile[] = [
       "安定した環境で腰を据えて働ける",
     ],
     caution: "意思決定のスピードがゆっくりな組織もある",
-    exampleJobs: ["生産技術", "商品企画"],
   },
   {
     id: "consulting",
@@ -57,7 +55,6 @@ export const industries: IndustryProfile[] = [
       "論理的思考力を最大限に活かせる",
     ],
     caution: "成果主義が強く、プレッシャーは大きい傾向がある",
-    exampleJobs: ["経営コンサルタント", "ITコンサルタント"],
   },
   {
     id: "finance",
@@ -75,7 +72,6 @@ export const industries: IndustryProfile[] = [
       "専門知識が積み上がるキャリアパス",
     ],
     caution: "規制やコンプライアンスが厳しい環境がある",
-    exampleJobs: ["アナリスト", "リスク管理"],
   },
   {
     id: "trading",
@@ -93,7 +89,6 @@ export const industries: IndustryProfile[] = [
       "幅広い事業領域に関われる",
     ],
     caution: "転勤や海外赴任の可能性がある",
-    exampleJobs: ["営業（トレーディング）", "事業開発"],
   },
   {
     id: "advertising",
@@ -111,7 +106,6 @@ export const industries: IndustryProfile[] = [
       "多くの人に届くものを作れる実感",
     ],
     caution: "納期に追われるスピード感がある",
-    exampleJobs: ["プランナー", "マーケター"],
   },
   {
     id: "hr",
@@ -129,7 +123,6 @@ export const industries: IndustryProfile[] = [
       "多くの企業・業界の知見が広がる",
     ],
     caution: "成果が数字で評価されやすい面がある",
-    exampleJobs: ["キャリアアドバイザー", "法人営業"],
   },
   {
     id: "healthcare",
@@ -147,7 +140,6 @@ export const industries: IndustryProfile[] = [
       "専門性が高く長期的にキャリアを築ける",
     ],
     caution: "責任が重く、精神的な負荷を感じる場面がある",
-    exampleJobs: ["MR（医薬情報担当）", "医療機器営業"],
   },
   {
     id: "infrastructure",
@@ -165,7 +157,6 @@ export const industries: IndustryProfile[] = [
       "ワークライフバランスを重視しやすい",
     ],
     caution: "変化のスピードはゆっくりな傾向がある",
-    exampleJobs: ["施設管理", "公共政策企画"],
   },
   {
     id: "education",
@@ -183,6 +174,91 @@ export const industries: IndustryProfile[] = [
       "社会的意義の高い仕事に就ける",
     ],
     caution: "収益モデルの面で給与水準に限りがある場合も",
-    exampleJobs: ["教材開発", "スクール運営"],
+  },
+  // ===== 新規追加 =====
+  {
+    id: "public-service",
+    name: "公務員・官公庁",
+    ideal: {
+      motivation: 75,
+      workStyle: 35,
+      tolerance: 60,
+      interest: 60,
+      aptitude: 70,
+    },
+    reasons: [
+      "社会全体に貢献する使命感がある",
+      "安定した雇用と福利厚生が充実",
+      "政策を通じて社会を変えられる",
+    ],
+    caution: "異動が多く、希望の部署に配属されるとは限らない",
+  },
+  {
+    id: "freelance-it",
+    name: "ITフリーランス",
+    ideal: {
+      motivation: 75,
+      workStyle: 95,
+      tolerance: 75,
+      interest: 90,
+      aptitude: 75,
+    },
+    reasons: [
+      "働く場所・時間を自分で選べる自由度",
+      "スキル次第で収入を大きく伸ばせる",
+      "多様なプロジェクトで技術力が磨かれる",
+    ],
+    caution: "収入が不安定で、営業・事務も自分でこなす必要がある",
+  },
+  {
+    id: "creative-independent",
+    name: "クリエイティブ独立",
+    ideal: {
+      motivation: 80,
+      workStyle: 90,
+      tolerance: 65,
+      interest: 95,
+      aptitude: 75,
+    },
+    reasons: [
+      "自分のセンスやスキルで勝負できる",
+      "ポートフォリオが資産として積み上がる",
+      "好きなことを仕事にできる実感がある",
+    ],
+    caution: "単価交渉やクライアント対応も自分で行う必要がある",
+  },
+  {
+    id: "startup",
+    name: "起業・スタートアップ",
+    ideal: {
+      motivation: 90,
+      workStyle: 90,
+      tolerance: 90,
+      interest: 80,
+      aptitude: 85,
+    },
+    reasons: [
+      "自分のビジョンで事業を作れる",
+      "成長スピードが圧倒的に速い環境",
+      "裁量が大きく、あらゆるスキルが身につく",
+    ],
+    caution: "失敗リスクが高く、長時間労働になりやすい",
+  },
+  {
+    id: "side-work",
+    name: "副業・パラレルワーク",
+    ideal: {
+      motivation: 70,
+      workStyle: 85,
+      tolerance: 60,
+      interest: 80,
+      aptitude: 70,
+    },
+    reasons: [
+      "本業の安定を保ちつつ新しい挑戦ができる",
+      "複数の収入源でリスク分散できる",
+      "自分の興味を仕事として試せる",
+    ],
+    caution: "時間管理が難しく、本業との両立が課題になる",
   },
 ];

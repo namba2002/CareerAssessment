@@ -52,9 +52,9 @@ interface MbtiInputProps {
 export function MbtiInputComponent({ value, onChange }: MbtiInputProps) {
   return (
     <div className="mb-8">
-      <h2 className="text-lg font-bold mb-2">MBTI（任意）</h2>
+      <h2 className="text-lg font-bold mb-2">あなたのMBTIタイプ</h2>
       <p className="text-sm text-gray-500 mb-4">
-        知っている方だけ。分からない場合はスキップしてOKです。
+        4つの軸それぞれで、自分に近いほうを選んでください。
       </p>
       <div className="flex flex-col gap-4">
         {AXES.map(({ axis, label, options }) => (
@@ -67,7 +67,7 @@ export function MbtiInputComponent({ value, onChange }: MbtiInputProps) {
                   onClick={() =>
                     onChange({
                       ...value,
-                      [axis]: value[axis] === opt.value ? null : opt.value,
+                      [axis]: opt.value,
                     })
                   }
                   className={`px-3 py-3 rounded-lg border text-sm transition-all ${

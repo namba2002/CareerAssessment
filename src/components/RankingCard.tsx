@@ -54,15 +54,15 @@ export function RankingCard({ result, rank }: RankingCardProps) {
 
       <div>
         <p className="text-xs font-semibold text-gray-500 mb-1">
-          見るべき職種例
+          マッチする職種
         </p>
-        <div className="flex gap-2">
-          {result.exampleJobs.map((job, i) => (
+        <div className="flex flex-wrap gap-2">
+          {result.topJobs.map((jr) => (
             <span
-              key={i}
+              key={jr.job.id}
               className="text-sm bg-blue-50 text-blue-700 px-3 py-1 rounded-full"
             >
-              {job}
+              {jr.job.name}（{jr.score}pt）
             </span>
           ))}
         </div>

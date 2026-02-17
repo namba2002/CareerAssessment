@@ -21,7 +21,7 @@ export const mbtiData: Record<string, MbtiTypeData> = {
     goodEnvironments: ["裁量が大きい環境", "論理的な議論が重視される組織"],
     jobTags: ["企画", "分析", "研究"],
     tip: "自分のビジョンを周囲と共有する場を意識的に作ると、より力を発揮しやすくなります",
-    industryBonus: { consulting: 3, it: 4, finance: 2 },
+    industryBonus: { consulting: 3, it: 4, finance: 2, "freelance-it": 3, startup: 2 },
   },
   INTP: {
     type: "INTP",
@@ -39,7 +39,7 @@ export const mbtiData: Record<string, MbtiTypeData> = {
     goodEnvironments: ["自由度の高い研究環境", "専門性を深められる組織"],
     jobTags: ["研究", "エンジニア", "分析"],
     tip: "アイデアを「まず小さく試す」習慣をつけると、強みが活きやすくなります",
-    industryBonus: { it: 5, consulting: 2, education: 2 },
+    industryBonus: { it: 5, consulting: 2, education: 2, "freelance-it": 5, "creative-independent": 2 },
   },
   ENTJ: {
     type: "ENTJ",
@@ -57,7 +57,7 @@ export const mbtiData: Record<string, MbtiTypeData> = {
     goodEnvironments: ["成果主義の組織", "裁量権のあるポジション", "成長機会が多い環境"],
     jobTags: ["PM", "経営企画", "営業"],
     tip: "周囲の意見に耳を傾ける時間を確保すると、チーム全体の成果が上がりやすくなります",
-    industryBonus: { consulting: 5, trading: 3, finance: 2 },
+    industryBonus: { consulting: 5, trading: 3, finance: 2, startup: 5, "side-work": 2 },
   },
   ENTP: {
     type: "ENTP",
@@ -75,7 +75,7 @@ export const mbtiData: Record<string, MbtiTypeData> = {
     goodEnvironments: ["新規事業が多い組織", "フラットな議論文化", "変化の速い環境"],
     jobTags: ["企画", "新規事業", "マーケティング"],
     tip: "一つのプロジェクトを最後までやり切る経験が、大きな自信につながりやすいです",
-    industryBonus: { advertising: 4, it: 3, consulting: 2 },
+    industryBonus: { advertising: 4, it: 3, consulting: 2, startup: 4, "side-work": 3 },
   },
   INFJ: {
     type: "INFJ",
@@ -93,7 +93,7 @@ export const mbtiData: Record<string, MbtiTypeData> = {
     goodEnvironments: ["ミッション志向の組織", "個人の価値観が尊重される環境"],
     jobTags: ["カウンセラー", "企画", "教育"],
     tip: "自分の理想を言語化して伝えると、共感してくれる仲間が見つかりやすくなります",
-    industryBonus: { education: 4, healthcare: 3, hr: 2 },
+    industryBonus: { education: 4, healthcare: 3, hr: 2, "public-service": 2, "creative-independent": 2 },
   },
   INFP: {
     type: "INFP",
@@ -111,7 +111,7 @@ export const mbtiData: Record<string, MbtiTypeData> = {
     goodEnvironments: ["クリエイティブな環境", "価値観を共有できるチーム", "自分のペースで働ける職場"],
     jobTags: ["クリエイター", "ライター", "CS"],
     tip: "完璧を目指すよりも、まず行動してみると道が開けやすくなります",
-    industryBonus: { advertising: 3, education: 3, healthcare: 2 },
+    industryBonus: { advertising: 3, education: 3, healthcare: 2, "creative-independent": 4, "side-work": 3 },
   },
   ENFJ: {
     type: "ENFJ",
@@ -129,7 +129,7 @@ export const mbtiData: Record<string, MbtiTypeData> = {
     goodEnvironments: ["チーム密度が高い組織", "人材育成に力を入れている環境"],
     jobTags: ["PM", "人事", "営業"],
     tip: "自分のケアも忘れずに。「助けを求める」こと自体がチーム力を高めます",
-    industryBonus: { hr: 4, education: 3, healthcare: 2 },
+    industryBonus: { hr: 4, education: 3, healthcare: 2, "public-service": 2, startup: 2 },
   },
   ENFP: {
     type: "ENFP",
@@ -147,7 +147,7 @@ export const mbtiData: Record<string, MbtiTypeData> = {
     goodEnvironments: ["自由で風通しの良い組織", "新しい挑戦が奨励される環境", "多様な人と関われる職場"],
     jobTags: ["マーケティング", "企画", "CS"],
     tip: "ワクワクの源泉を言語化しておくと、キャリア選択がブレにくくなります",
-    industryBonus: { advertising: 4, hr: 3, it: 1 },
+    industryBonus: { advertising: 4, hr: 3, it: 1, "side-work": 3, "creative-independent": 2 },
   },
   ISTJ: {
     type: "ISTJ",
@@ -165,7 +165,7 @@ export const mbtiData: Record<string, MbtiTypeData> = {
     goodEnvironments: ["ルールが明確な組織", "安定した環境", "専門性を活かせるポジション"],
     jobTags: ["経理", "品質管理", "法務"],
     tip: "変化を「脅威」ではなく「新しい手順を作るチャンス」と捉えると楽になりやすいです",
-    industryBonus: { finance: 4, infrastructure: 4, manufacturer: 3 },
+    industryBonus: { finance: 4, infrastructure: 4, manufacturer: 3, "public-service": 4 },
   },
   ISFJ: {
     type: "ISFJ",
@@ -183,7 +183,7 @@ export const mbtiData: Record<string, MbtiTypeData> = {
     goodEnvironments: ["チームの結束が強い組織", "ルールが明確な環境", "人を支える役割"],
     jobTags: ["事務", "CS", "医療事務"],
     tip: "自分の貢献を過小評価せず、成果を可視化する習慣を持つと良いかもしれません",
-    industryBonus: { healthcare: 4, infrastructure: 3, education: 2 },
+    industryBonus: { healthcare: 4, infrastructure: 3, education: 2, "public-service": 3 },
   },
   ESTJ: {
     type: "ESTJ",
@@ -201,7 +201,7 @@ export const mbtiData: Record<string, MbtiTypeData> = {
     goodEnvironments: ["階層がはっきりした組織", "成果が明確に測れる環境"],
     jobTags: ["管理職", "営業", "プロジェクト管理"],
     tip: "多様な意見を取り入れる余裕を持つと、さらにリーダーシップが発揮しやすくなります",
-    industryBonus: { trading: 4, finance: 3, manufacturer: 2 },
+    industryBonus: { trading: 4, finance: 3, manufacturer: 2, "public-service": 3, startup: 2 },
   },
   ESFJ: {
     type: "ESFJ",
@@ -219,7 +219,7 @@ export const mbtiData: Record<string, MbtiTypeData> = {
     goodEnvironments: ["チームワーク重視の組織", "感謝が見えやすい環境", "対人サービスが多い職場"],
     jobTags: ["営業", "人事", "接客"],
     tip: "自分の価値基準を明確にしておくと、他者の期待に振り回されにくくなります",
-    industryBonus: { hr: 4, healthcare: 3, education: 2 },
+    industryBonus: { hr: 4, healthcare: 3, education: 2, "public-service": 2 },
   },
   ISTP: {
     type: "ISTP",
@@ -237,7 +237,7 @@ export const mbtiData: Record<string, MbtiTypeData> = {
     goodEnvironments: ["手を動かせる環境", "自分のペースで働ける組織", "技術を磨ける職場"],
     jobTags: ["エンジニア", "技術職", "分析"],
     tip: "技術を磨きつつ、それを伝える力も意識すると活躍の幅が広がりやすいです",
-    industryBonus: { it: 4, manufacturer: 4, infrastructure: 2 },
+    industryBonus: { it: 4, manufacturer: 4, infrastructure: 2, "freelance-it": 4, "side-work": 2 },
   },
   ISFP: {
     type: "ISFP",
@@ -255,7 +255,7 @@ export const mbtiData: Record<string, MbtiTypeData> = {
     goodEnvironments: ["クリエイティブな環境", "自分のペースを尊重してくれる組織"],
     jobTags: ["デザイナー", "クリエイター", "CS"],
     tip: "自分の「好き」を仕事の軸にすると、長く続けやすいキャリアになりやすいです",
-    industryBonus: { advertising: 4, manufacturer: 2, education: 2 },
+    industryBonus: { advertising: 4, manufacturer: 2, education: 2, "creative-independent": 4, "side-work": 2 },
   },
   ESTP: {
     type: "ESTP",
@@ -273,7 +273,7 @@ export const mbtiData: Record<string, MbtiTypeData> = {
     goodEnvironments: ["スピード感のある組織", "成果がダイレクトに反映される環境", "多様な人と関わる仕事"],
     jobTags: ["営業", "事業開発", "マーケティング"],
     tip: "振り返りの習慣を加えると、行動力に「精度」が加わってさらに強くなります",
-    industryBonus: { trading: 4, advertising: 3, hr: 2 },
+    industryBonus: { trading: 4, advertising: 3, hr: 2, startup: 4, "freelance-it": 2 },
   },
   ESFP: {
     type: "ESFP",
@@ -291,6 +291,6 @@ export const mbtiData: Record<string, MbtiTypeData> = {
     goodEnvironments: ["明るい雰囲気の職場", "対人コミュニケーションが多い環境", "変化に富んだ仕事"],
     jobTags: ["営業", "イベント企画", "CS"],
     tip: "楽しさの中に「目標」を設定すると、エネルギーがより成果に結びつきやすくなります",
-    industryBonus: { advertising: 3, hr: 3, trading: 2 },
+    industryBonus: { advertising: 3, hr: 3, trading: 2, "side-work": 3, "creative-independent": 2 },
   },
 };

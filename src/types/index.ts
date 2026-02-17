@@ -31,7 +31,22 @@ export interface IndustryProfile {
   ideal: DimensionScores;
   reasons: string[];
   caution: string;
-  exampleJobs: [string, string];
+}
+
+// ===== 職種プロファイル =====
+export interface JobProfile {
+  id: string;
+  name: string;
+  industryId: string;
+  /** 職種固有の理想プロファイル (0〜100) */
+  ideal: DimensionScores;
+}
+
+// ===== 職種マッチ結果 =====
+export interface JobResult {
+  job: JobProfile;
+  industryName: string;
+  score: number;
 }
 
 // ===== 業界ランキング結果 =====
@@ -40,7 +55,7 @@ export interface IndustryResult {
   score: number;
   matchedReasons: string[];
   caution: string;
-  exampleJobs: [string, string];
+  topJobs: JobResult[];
 }
 
 // ===== MBTI =====
