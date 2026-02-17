@@ -8,42 +8,46 @@ interface MbtiSectionProps {
 
 export function MbtiSection({ data }: MbtiSectionProps) {
   return (
-    <div className="border border-purple-200 rounded-xl p-5 bg-gradient-to-b from-purple-50 to-white shadow-sm">
-      <div className="text-center mb-4">
-        <p className="text-sm text-purple-500 font-medium mb-1">
-          あなたのMBTI
+    <div className="glass rounded-2xl p-6 border-[#6c5ce7]/20 animate-scale-in">
+      {/* Type Header */}
+      <div className="text-center mb-6">
+        <p className="text-xs text-[#a29bfe] font-medium tracking-wider uppercase mb-2">
+          Your MBTI Type
         </p>
-        <p className="text-3xl font-black tracking-widest text-purple-700">
+        <p className="text-4xl font-black tracking-[0.2em] gradient-text mb-1">
           {data.type}
         </p>
-        <p className="text-base font-bold text-purple-600 mt-1">
-          {data.label}
-        </p>
+        <p className="text-lg font-bold text-[#a29bfe]">{data.label}</p>
       </div>
 
-      {/* あるある傾向 */}
-      <div className="mb-4">
-        <h4 className="text-sm font-bold text-gray-700 mb-2">
-          こんな傾向ありませんか？
+      {/* Traits */}
+      <div className="mb-5">
+        <h4 className="text-xs font-bold text-white/40 mb-2 uppercase tracking-wider">
+          Tendencies
         </h4>
-        <ul className="text-sm text-gray-600 space-y-1">
+        <ul className="space-y-2">
           {data.traits.map((t, i) => (
-            <li key={i} className="flex items-start gap-1.5">
-              <span className="text-purple-400 shrink-0">&#9679;</span>
+            <li
+              key={i}
+              className="flex items-start gap-2 text-sm text-white/70"
+            >
+              <span className="text-[#a29bfe] shrink-0 mt-0.5">&#9679;</span>
               <span>{t}</span>
             </li>
           ))}
         </ul>
       </div>
 
-      {/* 強み */}
-      <div className="mb-4">
-        <h4 className="text-sm font-bold text-gray-700 mb-2">強み</h4>
+      {/* Strengths */}
+      <div className="mb-5">
+        <h4 className="text-xs font-bold text-white/40 mb-2 uppercase tracking-wider">
+          Strengths
+        </h4>
         <div className="flex flex-wrap gap-2">
           {data.strengths.map((s, i) => (
             <span
               key={i}
-              className="text-sm bg-green-50 text-green-700 px-3 py-1 rounded-full border border-green-200"
+              className="chip bg-[#00cec9]/10 text-[#00cec9] border-[#00cec9]/20"
             >
               {s}
             </span>
@@ -51,31 +55,34 @@ export function MbtiSection({ data }: MbtiSectionProps) {
         </div>
       </div>
 
-      {/* つまずきやすい点 */}
-      <div className="mb-4">
-        <h4 className="text-sm font-bold text-gray-700 mb-2">
-          つまずきやすい点
+      {/* Pitfalls */}
+      <div className="mb-5">
+        <h4 className="text-xs font-bold text-white/40 mb-2 uppercase tracking-wider">
+          Pitfalls
         </h4>
-        <ul className="text-sm text-gray-600 space-y-1">
+        <ul className="space-y-2">
           {data.pitfalls.map((p, i) => (
-            <li key={i} className="flex items-start gap-1.5">
-              <span className="text-orange-400 shrink-0">&#9650;</span>
+            <li
+              key={i}
+              className="flex items-start gap-2 text-sm text-white/60"
+            >
+              <span className="text-[#fd79a8] shrink-0 mt-0.5">&#9650;</span>
               <span>{p}</span>
             </li>
           ))}
         </ul>
       </div>
 
-      {/* 合いそうな環境 */}
-      <div className="mb-4">
-        <h4 className="text-sm font-bold text-gray-700 mb-2">
-          合いそうな環境
+      {/* Good Environments */}
+      <div className="mb-5">
+        <h4 className="text-xs font-bold text-white/40 mb-2 uppercase tracking-wider">
+          Best Environments
         </h4>
         <div className="flex flex-wrap gap-2">
           {data.goodEnvironments.map((e, i) => (
             <span
               key={i}
-              className="text-sm bg-blue-50 text-blue-700 px-3 py-1 rounded-full border border-blue-200"
+              className="chip bg-[#0984e3]/10 text-[#74b9ff] border-[#0984e3]/20"
             >
               {e}
             </span>
@@ -83,16 +90,16 @@ export function MbtiSection({ data }: MbtiSectionProps) {
         </div>
       </div>
 
-      {/* 相性が良い職種タグ */}
-      <div className="mb-4">
-        <h4 className="text-sm font-bold text-gray-700 mb-2">
-          相性が良さそうな職種
+      {/* Job Tags */}
+      <div className="mb-5">
+        <h4 className="text-xs font-bold text-white/40 mb-2 uppercase tracking-wider">
+          Compatible Jobs
         </h4>
         <div className="flex flex-wrap gap-2">
           {data.jobTags.map((j, i) => (
             <span
               key={i}
-              className="text-sm bg-purple-100 text-purple-700 px-3 py-1 rounded-full font-medium"
+              className="chip bg-[#6c5ce7]/15 text-[#a29bfe] border-[#6c5ce7]/25 font-medium"
             >
               #{j}
             </span>
@@ -100,15 +107,15 @@ export function MbtiSection({ data }: MbtiSectionProps) {
         </div>
       </div>
 
-      {/* ワンポイント */}
-      <div className="bg-purple-50 border border-purple-100 rounded-lg p-3">
-        <p className="text-sm text-purple-700">
-          <span className="font-bold">仕事選びのワンポイント：</span>
+      {/* Tip */}
+      <div className="p-4 rounded-xl bg-gradient-to-r from-[#6c5ce7]/10 to-[#a29bfe]/5 border border-[#6c5ce7]/15">
+        <p className="text-sm text-white/70">
+          <span className="font-bold text-[#a29bfe]">Tip：</span>
           {data.tip}
         </p>
       </div>
 
-      <p className="text-xs text-gray-400 mt-3 text-center">
+      <p className="text-xs text-white/20 mt-4 text-center">
         ※ MBTIは自己申告に基づくため、あくまで傾向の参考としてご覧ください
       </p>
     </div>
