@@ -23,7 +23,23 @@ export function ProgressBar({ current, total }: ProgressBarProps) {
             background: "linear-gradient(90deg, #C4B0FF, #FF8FAB)",
           }}
         />
+        {pct > 0 && !isComplete && (
+          <div
+            className="absolute top-0 h-full w-8 rounded-full"
+            style={{
+              left: `calc(${pct}% - 16px)`,
+              background:
+                "radial-gradient(circle, rgba(162,155,254,0.6) 0%, transparent 70%)",
+              filter: "blur(4px)",
+            }}
+          />
+        )}
       </div>
+      {isComplete && (
+        <p className="text-xs text-[#00cec9] text-center mt-2 font-medium animate-fade-in">
+          全問回答完了！
+        </p>
+      )}
     </div>
   );
 }

@@ -38,6 +38,39 @@ function isMbtiComplete(mbti: MbtiInput): boolean {
   );
 }
 
+const DIMENSION_ITEMS = [
+  {
+    icon: "💎",
+    title: "価値観",
+    desc: "仕事に何を求めるか",
+    color: "#6c5ce7",
+  },
+  {
+    icon: "🚀",
+    title: "働き方志向",
+    desc: "どんなスタイルで働きたいか",
+    color: "#a29bfe",
+  },
+  {
+    icon: "🔥",
+    title: "耐性",
+    desc: "プレッシャーや変化への適応力",
+    color: "#fd79a8",
+  },
+  {
+    icon: "🔍",
+    title: "興味",
+    desc: "どんな分野に惹かれるか",
+    color: "#00cec9",
+  },
+  {
+    icon: "⚡",
+    title: "能力感覚",
+    desc: "自分が得意だと感じること",
+    color: "#ffeaa7",
+  },
+];
+
 export default function DiagnosisPage() {
   const router = useRouter();
   const [started, setStarted] = useState(false);

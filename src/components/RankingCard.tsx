@@ -8,8 +8,6 @@ const RANK_STYLES = [
   { gradient: "from-peach to-yellow", badge: "bg-peach", emoji: "🥉" },
 ];
 
-const RANK_LABELS = ["1st", "2nd", "3rd"];
-
 interface RankingCardProps {
   result: IndustryResult;
   rank: number;

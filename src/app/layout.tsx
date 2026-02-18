@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "MBTI職業診断 - あなたに合う職業を見つけよう",
+  title: "MBTI職業診断 - あなたの天職を見つけよう",
   description:
-    "MBTIタイプと20問の質問から、あなたにおすすめの職種・業界ランキングを表示します。",
+    "MBTIタイプと20問の質問から、あなたにおすすめの職種・業界ランキングを表示します。就活生のための本格キャリア診断。",
 };
 
 export default function RootLayout({

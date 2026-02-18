@@ -29,6 +29,8 @@ export function LikertQuestion({
   selected,
   onSelect,
 }: LikertQuestionProps) {
+  const isAnswered = selected !== undefined;
+
   return (
     <div className="mb-8 card-soft p-5">
       <p className="text-sm font-bold mb-4 leading-relaxed">
