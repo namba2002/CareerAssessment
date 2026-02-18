@@ -22,19 +22,22 @@ interface LikertQuestionProps {
   question: Question;
   selected: Answer | undefined;
   onSelect: (questionId: number, answer: Answer) => void;
+  /** ページ内の表示順（シャッフル後の相対番号）*/
+  displayIndex: number;
 }
 
 export function LikertQuestion({
   question,
   selected,
   onSelect,
+  displayIndex,
 }: LikertQuestionProps) {
   const isAnswered = selected !== undefined;
 
   return (
     <div className="mb-8 card-soft p-5">
       <p className="text-sm font-bold mb-4 leading-relaxed">
-        <span className="text-lavender mr-1.5">Q{question.id}.</span>
+        <span className="text-lavender mr-1.5">Q{displayIndex}.</span>
         {question.text}
       </p>
 

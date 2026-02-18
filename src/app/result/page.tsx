@@ -2,10 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Answer, MbtiInput, JobResult, DimensionScores } from "@/types";
+import { Answer, MbtiInput, JobResult, DimensionScores, MbtiTypeData } from "@/types";
 import { calcRanking } from "@/lib/scoring";
 import { mbtiData } from "@/data/mbti";
-import { MbtiTypeData } from "@/types";
 import { JobRankingCard } from "@/components/JobRankingCard";
 import { RadarChart } from "@/components/RadarChart";
 

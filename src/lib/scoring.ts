@@ -111,10 +111,9 @@ function calcCombinedScore(dimensionScore: number, mbtiBonus: number): number {
 }
 
 /**
- * ユーザースコアに基づいてマッチ理由を選定
+ * 業界のマッチ理由を返す
  */
 function selectReasons(
-  userScores: DimensionScores,
   industry: (typeof industries)[number]
 ): string[] {
   return industry.reasons;
@@ -168,29 +167,6 @@ const DIMENSION_TRAIT_PHRASES: Record<Dimension, { high: string; low: string }> 
   },
 };
 
-// 職種側の環境説明（ユーザー特性と職種環境の橋渡し）
-const DIMENSION_JOB_ENV: Record<Dimension, { high: string; low: string }> = {
-  motivation: {
-    high: "大きなやりがいや使命感を感じられる仕事",
-    low: "安定した基盤の上で長く続けられる仕事",
-  },
-  workStyle: {
-    high: "働く場所や時間を自分でコントロールしやすい環境",
-    low: "チームや組織の一員として安心して取り組める環境",
-  },
-  tolerance: {
-    high: "チャレンジングな場面が多く成長スピードが速い現場",
-    low: "無理なく自分のペースで力を発揮できる現場",
-  },
-  interest: {
-    high: "常に新しいテーマや技術に触れられるフィールド",
-    low: "ひとつの領域で専門知識を積み上げていけるフィールド",
-  },
-  aptitude: {
-    high: "多彩な能力をバランスよく求められるポジション",
-    low: "特定のスキルを深く磨いていけるポジション",
-  },
-};
 
 /**
  * ユーザーの特性に基づいた寄り添い型の詳細文を生成（2〜3文）
@@ -297,7 +273,7 @@ export function calcRanking(
     return {
       industry,
       score,
-      matchedReasons: selectReasons(userScores, industry),
+      matchedReasons: selectReasons(industry),
       caution: industry.caution,
       topJobs: (jobsByIndustry.get(industry.id) ?? []).slice(0, 2),
     };

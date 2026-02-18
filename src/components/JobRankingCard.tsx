@@ -17,7 +17,7 @@ interface JobRankingCardProps {
 
 export function JobRankingCard({ result, rank }: JobRankingCardProps) {
   const style = RANK_STYLES[rank] ?? RANK_STYLES[4];
-  const delay = `stagger-${rank + 1}`;
+  const delay = `stagger-${Math.min(rank + 1, 5)}`;
 
   return (
     <div className={`card-soft mb-4 overflow-hidden anim-float-up ${delay}`}>
