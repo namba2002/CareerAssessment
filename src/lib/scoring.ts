@@ -120,6 +120,134 @@ function selectReasons(
   return industry.reasons;
 }
 
+// ===== 職種マッチ理由生成 =====
+const DIMENSION_REASON_MAP: Record<Dimension, { good: string; bad: string }> = {
+  motivation: {
+    good: "仕事に求める価値観がこの職種と合っています",
+    bad: "仕事に対する動機付けの方向性がやや異なります",
+  },
+  workStyle: {
+    good: "理想の働き方スタイルにフィットしています",
+    bad: "働き方の自由度や環境が希望と少し異なるかもしれません",
+  },
+  tolerance: {
+    good: "プレッシャーへの耐性がこの職種に向いています",
+    bad: "ストレス耐性の面で少しチャレンジになるかもしれません",
+  },
+  interest: {
+    good: "興味・関心の方向性がぴったりです",
+    bad: "興味の方向が少し異なる可能性があります",
+  },
+  aptitude: {
+    good: "あなたの得意スキルが活かせる職種です",
+    bad: "求められるスキルセットに少しギャップがあるかもしれません",
+  },
+};
+
+// ===== 寄り添い型の詳細文テンプレート =====
+const DIMENSION_TRAIT_PHRASES: Record<Dimension, { high: string; low: string }> = {
+  motivation: {
+    high: "仕事にやりがいや社会的意義を強く求める",
+    low: "安定した環境で着実にキャリアを積みたい",
+  },
+  workStyle: {
+    high: "自分の裁量で自由に働き方を設計したい",
+    low: "決まった枠組みの中で着実に成果を出すのが得意",
+  },
+  tolerance: {
+    high: "プレッシャーのある環境でこそ力を発揮できる",
+    low: "穏やかな環境で落ち着いて実力を出せる",
+  },
+  interest: {
+    high: "新しいことへの好奇心が旺盛で学ぶことが好き",
+    low: "ひとつの分野を深く掘り下げて極めるのが好き",
+  },
+  aptitude: {
+    high: "幅広いスキルを柔軟に組み合わせて活かせる",
+    low: "専門性をじっくり磨いて武器にできる",
+  },
+};
+
+// 職種側の環境説明（ユーザー特性と職種環境の橋渡し）
+const DIMENSION_JOB_ENV: Record<Dimension, { high: string; low: string }> = {
+  motivation: {
+    high: "大きなやりがいや使命感を感じられる仕事",
+    low: "安定した基盤の上で長く続けられる仕事",
+  },
+  workStyle: {
+    high: "働く場所や時間を自分でコントロールしやすい環境",
+    low: "チームや組織の一員として安心して取り組める環境",
+  },
+  tolerance: {
+    high: "チャレンジングな場面が多く成長スピードが速い現場",
+    low: "無理なく自分のペースで力を発揮できる現場",
+  },
+  interest: {
+    high: "常に新しいテーマや技術に触れられるフィールド",
+    low: "ひとつの領域で専門知識を積み上げていけるフィールド",
+  },
+  aptitude: {
+    high: "多彩な能力をバランスよく求められるポジション",
+    low: "特定のスキルを深く磨いていけるポジション",
+  },
+};
+
+/**
+ * ユーザーの特性に基づいた寄り添い型の詳細文を生成（2〜3文）
+ */
+function generateDescription(
+  userScores: DimensionScores,
+  jobIdeal: DimensionScores,
+  jobName: string,
+  tagline: string
+): string {
+  const dimMatches = DIMENSIONS.map((dim) => ({
+    dim,
+    match: 100 - Math.abs(userScores[dim] - jobIdeal[dim]),
+    userScore: userScores[dim],
+  }));
+  dimMatches.sort((a, b) => b.match - a.match);
+
+  const top1 = dimMatches[0];
+  const top2 = dimMatches[1];
+
+  const trait1 = top1.userScore >= 50
+    ? DIMENSION_TRAIT_PHRASES[top1.dim].high
+    : DIMENSION_TRAIT_PHRASES[top1.dim].low;
+  const trait2 = top2.userScore >= 50
+    ? DIMENSION_TRAIT_PHRASES[top2.dim].high
+    : DIMENSION_TRAIT_PHRASES[top2.dim].low;
+
+  return `${tagline}あなたは「${trait1}」タイプで、さらに「${trait2}」という強みも持っています。こうした特性は${jobName}で自然に活かすことができます。`;
+}
+
+/**
+ * 各軸の一致度を計算し、上位3つをマッチ理由、最も低いものを注意点として返す
+ */
+function generateJobMatchInfo(
+  userScores: DimensionScores,
+  jobIdeal: DimensionScores,
+  jobName: string,
+  tagline: string
+): { matchReasons: string[]; caution: string; description: string } {
+  const dimMatches = DIMENSIONS.map((dim) => ({
+    dim,
+    match: 100 - Math.abs(userScores[dim] - jobIdeal[dim]),
+  }));
+  dimMatches.sort((a, b) => b.match - a.match);
+
+  const matchReasons = dimMatches
+    .slice(0, 3)
+    .map((d) => DIMENSION_REASON_MAP[d.dim].good);
+
+  const worst = dimMatches[dimMatches.length - 1];
+  const caution = DIMENSION_REASON_MAP[worst.dim].bad;
+
+  const description = generateDescription(userScores, jobIdeal, jobName, tagline);
+
+  return { matchReasons, caution, description };
+}
+
 /**
  * ランキング算出（メイン関数）
  * 5軸スコア(80%) + MBTI適性(20%) の統合スコアで算出
@@ -127,7 +255,7 @@ function selectReasons(
 export function calcRanking(
   answers: Record<number, Answer>,
   mbtiInput: MbtiInput
-): { industryResults: IndustryResult[]; topJobs: JobResult[]; mbtiType: string | null } {
+): { industryResults: IndustryResult[]; topJobs: JobResult[]; mbtiType: string | null; dimensionScores: DimensionScores } {
   const userScores = calcDimensionScores(answers);
   const mbtiType = getMbtiType(mbtiInput);
   const mbtiInfo = mbtiType ? mbtiData[mbtiType] : null;
@@ -137,12 +265,16 @@ export function calcRanking(
     const dimScore = calcDimensionMatchScore(userScores, job.ideal);
     const bonus = mbtiInfo?.industryBonus[job.industryId] ?? 0;
     const score = calcCombinedScore(dimScore, bonus);
+    const { matchReasons, caution, description } = generateJobMatchInfo(userScores, job.ideal, job.name, job.tagline);
 
     const industry = industries.find((ind) => ind.id === job.industryId);
     return {
       job,
       industryName: industry?.name ?? "",
       score,
+      matchReasons,
+      caution,
+      description,
     };
   });
 
@@ -177,5 +309,6 @@ export function calcRanking(
     industryResults,
     topJobs: allJobResults.slice(0, 5),
     mbtiType,
+    dimensionScores: userScores,
   };
 }

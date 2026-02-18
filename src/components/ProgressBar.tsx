@@ -6,19 +6,22 @@ interface ProgressBarProps {
 }
 
 export function ProgressBar({ current, total }: ProgressBarProps) {
-  const pct = Math.round((current / total) * 100);
+  const pct = total > 0 ? Math.round((current / total) * 100) : 0;
   return (
     <div className="w-full mb-6">
-      <div className="flex justify-between text-sm text-gray-500 mb-1">
-        <span>
+      <div className="flex items-baseline justify-between mb-2">
+        <span className="text-sm font-bold text-text-light">
           {current} / {total} 問
         </span>
-        <span>{pct}%</span>
+        <span className="text-lg font-bold text-lavender">{pct}%</span>
       </div>
-      <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+      <div className="w-full h-3 bg-lavender-light rounded-full overflow-hidden">
         <div
-          className="h-full bg-blue-500 rounded-full transition-all duration-300"
-          style={{ width: `${pct}%` }}
+          className="h-full rounded-full transition-all duration-500 ease-out"
+          style={{
+            width: `${pct}%`,
+            background: "linear-gradient(90deg, #C4B0FF, #FF8FAB)",
+          }}
         />
       </div>
     </div>

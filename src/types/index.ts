@@ -40,6 +40,8 @@ export interface JobProfile {
   industryId: string;
   /** 職種固有の理想プロファイル (0〜100) */
   ideal: DimensionScores;
+  /** この職種ならではの一言説明 */
+  tagline: string;
 }
 
 // ===== 職種マッチ結果 =====
@@ -47,6 +49,9 @@ export interface JobResult {
   job: JobProfile;
   industryName: string;
   score: number;
+  matchReasons: string[];
+  caution: string;
+  description: string;
 }
 
 // ===== 業界ランキング結果 =====

@@ -2,19 +2,19 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Answer, MbtiInput, IndustryResult, JobResult } from "@/types";
+import { Answer, MbtiInput, JobResult, DimensionScores } from "@/types";
 import { calcRanking } from "@/lib/scoring";
 import { mbtiData } from "@/data/mbti";
 import { MbtiTypeData } from "@/types";
-import { RankingCard } from "@/components/RankingCard";
 import { JobRankingCard } from "@/components/JobRankingCard";
+import { RadarChart } from "@/components/RadarChart";
 
 export default function ResultPage() {
   const router = useRouter();
-  const [industryRanking, setIndustryRanking] = useState<IndustryResult[] | null>(null);
-  const [topJobs, setTopJobs] = useState<JobResult[]>([]);
+  const [topJobs, setTopJobs] = useState<JobResult[] | null>(null);
   const [mbtiInfo, setMbtiInfo] = useState<MbtiTypeData | null>(null);
   const [mbtiType, setMbtiType] = useState<string | null>(null);
+  const [dimScores, setDimScores] = useState<DimensionScores | null>(null);
 
   useEffect(() => {
     const answersRaw = sessionStorage.getItem("diagnosis_answers");
@@ -31,25 +31,31 @@ export default function ResultPage() {
       : { EI: null, SN: null, TF: null, JP: null };
 
     const result = calcRanking(answers, mbtiInput);
-    setIndustryRanking(result.industryResults);
     setTopJobs(result.topJobs);
     setMbtiType(result.mbtiType);
+    setDimScores(result.dimensionScores);
     if (result.mbtiType && mbtiData[result.mbtiType]) {
       setMbtiInfo(mbtiData[result.mbtiType]);
     }
   }, [router]);
 
-  if (!industryRanking) {
+  /* =================== Loading State =================== */
+  if (!topJobs) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-400">読み込み中...</p>
+      <div className="min-h-screen bg-gradient-pastel flex items-center justify-center">
+        <div className="w-full max-w-lg px-5 space-y-4">
+          <div className="shimmer h-40 rounded-2xl" />
+          <div className="shimmer h-20 rounded-2xl" />
+          <div className="shimmer h-20 rounded-2xl" />
+          <p className="text-sm text-text-light text-center anim-gentle-pulse">
+            結果を計算中...✨
+          </p>
+        </div>
       </div>
     );
   }
 
-  const top3 = industryRanking.slice(0, 3);
-
-  const shareText = `MBTI職業診断の結果！おすすめ職種：${topJobs[0]?.job.name}（${topJobs[0]?.industryName}） / MBTI：${mbtiType} #MBTI職業診断 #就活`;
+  const shareText = `MBTI診断やってみた！\n\nタイプ：${mbtiType}${mbtiInfo ? `（${mbtiInfo.label}）` : ""}\nおすすめ職種No.1：${topJobs[0]?.job.name}\n\n#MBTI職業診断 #就活`;
 
   const handleShare = () => {
     const url = `https://x.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
@@ -63,77 +69,108 @@ export default function ResultPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      <div className="max-w-lg mx-auto px-4 py-8">
-        {/* ヘッダー */}
-        <div className="text-center mb-6">
-          <h1 className="text-2xl font-black mb-2">診断結果</h1>
-          <p className="text-sm text-gray-500">
-            5つの軸 + MBTIタイプの統合分析
+    <main className="min-h-screen bg-gradient-pastel">
+      <div className="max-w-lg mx-auto px-5 py-8">
+        {/* Header */}
+        <div className="text-center mb-6 anim-float-up">
+          <p className="text-4xl mb-2">🎉</p>
+          <h1 className="text-2xl font-black">診断結果</h1>
+          <p className="text-xs text-text-light mt-1">
+            あなたにマッチする職種ランキング
           </p>
         </div>
 
-        {/* MBTIタイプ + 特性サマリー（統合表示） */}
+        {/* =================== MBTI Hero Section =================== */}
         {mbtiInfo && (
-          <div className="border border-purple-200 rounded-xl p-5 mb-6 bg-gradient-to-b from-purple-50 to-white shadow-sm">
-            <div className="flex items-center gap-4 mb-3">
-              <div>
-                <p className="text-xs text-purple-500 font-medium">あなたのタイプ</p>
-                <p className="text-2xl font-black tracking-widest text-purple-700">
-                  {mbtiType}
+          <div className="card-soft overflow-hidden mb-8 anim-float-up stagger-1">
+            {/* Gradient header band */}
+            <div
+              className="p-6 text-center"
+              style={{
+                background:
+                  "linear-gradient(135deg, #C4B0FF 0%, #FF8FAB 50%, #FFB5A7 100%)",
+              }}
+            >
+              <p className="text-xs font-bold text-white/80 tracking-widest uppercase mb-1">
+                YOUR TYPE
+              </p>
+              <p className="text-6xl font-black text-white leading-none tracking-[0.15em] drop-shadow-sm">
+                {mbtiType}
+              </p>
+              <p className="text-lg font-black text-white mt-2">
+                {mbtiInfo.label}
+              </p>
+            </div>
+
+            <div className="p-5">
+              {/* Strengths */}
+              <div className="mb-4">
+                <p className="text-xs font-bold text-text-light mb-2">
+                  ✨ あなたの強み
                 </p>
-                <p className="text-sm font-bold text-purple-600">{mbtiInfo.label}</p>
-              </div>
-              <div className="flex-1">
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap gap-2">
                   {mbtiInfo.strengths.map((s, i) => (
                     <span
                       key={i}
-                      className="text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded-full border border-green-200"
+                      className="text-xs bg-lavender-light text-lavender px-3 py-1.5 rounded-full font-bold"
                     >
                       {s}
                     </span>
                   ))}
                 </div>
               </div>
+
+              {/* Tip */}
+              <div className="bg-mint-light rounded-xl p-4">
+                <p className="text-sm leading-relaxed">
+                  <span className="font-bold text-mint">💡 Tip：</span>
+                  {mbtiInfo.tip}
+                </p>
+              </div>
             </div>
-            <p className="text-sm text-purple-700 bg-purple-50 border border-purple-100 rounded-lg p-2.5">
-              <span className="font-bold">Tip：</span>{mbtiInfo.tip}
-            </p>
           </div>
         )}
 
-        {/* おすすめ職種 TOP 5 */}
-        <section className="mb-8">
-          <h2 className="text-lg font-bold mb-3">
-            あなたにおすすめの職種 TOP 5
-          </h2>
+        {/* =================== Radar Chart =================== */}
+        {dimScores && (
+          <div className="card-soft p-5 mb-8 anim-float-up stagger-2">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-xl">📊</span>
+              <h2 className="text-base font-black">あなたの5軸プロフィール</h2>
+            </div>
+            <RadarChart scores={dimScores} />
+          </div>
+        )}
+
+        {/* =================== Job Ranking TOP 5 =================== */}
+        <section className="mb-10">
+          <div className="flex items-center gap-3 mb-4 anim-float-up stagger-3">
+            <span className="text-xl">💼</span>
+            <h2 className="text-base font-black flex-1">
+              あなたにおすすめの職種
+            </h2>
+            <span className="text-sm font-black text-lavender bg-lavender-light px-3 py-1 rounded-full">
+              TOP 5
+            </span>
+          </div>
           {topJobs.map((result, i) => (
             <JobRankingCard key={result.job.id} result={result} rank={i} />
           ))}
         </section>
 
-        {/* おすすめ業界 TOP 3 */}
-        <section className="mb-8">
-          <h2 className="text-lg font-bold mb-3">おすすめ業界 TOP 3</h2>
-          {top3.map((result, i) => (
-            <RankingCard key={result.industry.id} result={result} rank={i} />
-          ))}
-        </section>
-
-        {/* アクションボタン */}
-        <div className="flex flex-col gap-3 pb-12">
+        {/* =================== Action Buttons =================== */}
+        <div className="flex flex-col gap-3 pb-12 anim-float-up">
           <button
             onClick={handleShare}
-            className="w-full py-3 rounded-xl bg-black text-white font-medium text-sm hover:bg-gray-800 transition"
+            className="btn-soft w-full py-4 text-base"
           >
-            X（Twitter）でシェアする
+            X でシェアする 🐦
           </button>
           <button
             onClick={handleRetry}
-            className="w-full py-3 rounded-xl border border-gray-300 bg-white text-gray-700 font-medium text-sm hover:bg-gray-50 transition"
+            className="w-full py-4 rounded-full bg-white text-text font-bold text-base border-2 border-lavender/30 hover:border-lavender hover:bg-lavender-light transition-all duration-200"
           >
-            もう一度診断する
+            もう一度診断する 🔄
           </button>
         </div>
       </div>
