@@ -38,7 +38,7 @@ export function RankingCard({ result, rank }: RankingCardProps) {
           <span
             className={`${style.badge} text-white text-xs font-bold px-2.5 py-1 rounded-full`}
           >
-            {style.emoji} {RANK_LABELS[rank] ?? `${rank + 1}th`}
+            {style.emoji} No.{rank + 1}
           </span>
           <h3 className="text-base font-black flex-1">{result.industry.name}</h3>
           <span className="text-2xl font-black text-lavender">

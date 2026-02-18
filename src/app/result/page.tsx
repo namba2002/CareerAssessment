@@ -38,9 +38,6 @@ export default function ResultPage() {
       setMbtiInfo(mbtiData[result.mbtiType]);
     }
 
-    // Delay content reveal for dramatic effect
-    const timer = setTimeout(() => setShowContent(true), 600);
-    return () => clearTimeout(timer);
   }, [router]);
 
   /* =================== Loading State =================== */
